@@ -32,6 +32,12 @@ You should read this if you:
 
 **First things first.** Not every workflow needs AI. Not every AI experiment deserves a second sprint. If it didn't reduce cycle time, catch real defects, or elevate contribution, it got cut.
 
+## Posts
+
+| # | Title | Topic |
+|---|-------|-------|
+| 001 | [Using AI as a Decision Support Layer for Defect Management at Scale](./001-Using-AI-as-a-Decision-Support-Layer-for-Defect-Management-at-Scale.md) | Defect triage, context engineering, regression-to-rule pipelines |
+
 ## About the Author
 
 I'm a Director of Engineering at a Fortune 500 enterprise software company, leading iOS, Android, and QE teams across the US, Israel, the Netherlands, and India. My org ships monthly to millions of enterprise users.
