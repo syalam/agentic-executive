@@ -8,7 +8,7 @@ Peter Drucker argued that effectiveness is a discipline — something that can b
 
 Most AI content is written for engineers building with AI. This series is for the people **leading** those engineers — directors, VPs, and CTOs who need to make high-stakes decisions about AI adoption, team structure, and delivery strategy while the ground shifts beneath them.
 
-I'm an engineering director leading a ~70-person mobile organization spanning four countries. Everything I write here comes from real problems I've faced: triaging production crashes with AI, rethinking test automation economics, building PR review bots that encode institutional knowledge, and figuring out which agentic tools actually move the needle versus which ones just demo well.
+I'm an engineering director leading a 70-person mobile organization spanning four countries. Everything I write here comes from real problems I've faced: triaging production crashes with AI, rethinking test automation economics, building PR review bots that encode institutional knowledge, and figuring out which agentic tools actually move the needle versus which ones just demo well.
 
 The question isn't what AI *can* do. It's where AI lets you and your teams contribute at a higher level. This is the field manual I wish I had.
 
@@ -16,11 +16,11 @@ The question isn't what AI *can* do. It's where AI lets you and your teams contr
 
 You should read this if you:
 
-- Lead an engineering org and feel the pressure to "adopt AI" without a clear playbook
-- Want to make better decisions about **where** AI actually helps versus where it's theater
-- Need to explain AI-accelerated development to your leadership chain in business terms
-- Are building or evaluating agentic tooling (MCP servers, coding agents, AI-powered CI/CD) for your teams
-- Want real talk from someone doing this at scale, not vendor marketing
+* Lead an engineering org and feel the pressure to "adopt AI" without a clear playbook
+* Want to make better decisions about **where** AI actually helps versus where it's theater
+* Need to explain AI-accelerated development to your leadership chain in business terms
+* Are building or evaluating agentic tooling (MCP servers, coding agents, AI-powered CI/CD) for your teams
+* Want real talk from someone doing this at scale, not vendor marketing
 
 ## Core Beliefs
 
@@ -35,8 +35,9 @@ You should read this if you:
 ## Posts
 
 | # | Title | Topic |
-|---|-------|-------|
-| 001 | [Using AI as a Decision Support Layer for Defect Management at Scale](./001-Using-AI-as-a-Decision-Support-Layer-for-Defect-Management-at-Scale.md) | Defect triage, context engineering, regression-to-rule pipelines |
+| --- | --- | --- |
+| 001 | [Using AI as a Decision Support Layer for Defect Management at Scale](001-Using-AI-as-a-Decision-Support-Layer-for-Defect-Management-at-Scale.md) | Defect triage, context engineering, regression-to-rule pipelines |
+| 002 | [Building an Agent Harness: How I Moved 70 Engineers to Agentic Development in 30 Days](002-Building-an-Agent-Harness-How-I-Moved-70-Engineers-to-Agentic-Development-in-30-Days.md) | Agent harness, AI adoption at scale, plugin marketplaces, measuring agentic contributions |
 
 ## About the Author
 
