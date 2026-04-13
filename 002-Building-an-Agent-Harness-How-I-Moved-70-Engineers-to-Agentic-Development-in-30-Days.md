@@ -1,7 +1,5 @@
 # Building an Agent Harness: How I Moved 70 Engineers to Agentic Development in 30 Days
 
-*Part of [The Agentic Executive](/) series*
-
 ---
 
 > "Making strength productive is the unique purpose of organization. It cannot, of course, overcome the weaknesses with which each of us is abundantly endowed. But it can make them irrelevant."
