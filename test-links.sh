@@ -43,7 +43,7 @@ echo ""
 # --- Check 2: Every NNN-*.md post file is linked in README.md ---
 echo ">> Check 2: All post files are linked in README.md"
 
-for post in "$REPO_ROOT"/[0-9][0-9][0-9]-*.md; do
+for post in "$REPO_ROOT"/posts/[0-9][0-9][0-9]-*.md; do
   [ -f "$post" ] || continue
   filename="$(basename "$post")"
   if ! grep -q "$filename" "$README"; then
