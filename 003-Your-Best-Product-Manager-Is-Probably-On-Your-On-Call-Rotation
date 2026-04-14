@@ -1,0 +1,130 @@
+# Your Best Product Manager Is Probably on Your On-Call Rotation
+
+There’s a persistent myth in enterprise software that product managers define what gets built and engineers build it. The reality in mature engineering organizations has never been that clean — and AI is making the line disappear entirely.
+
+The best product requirements in my org are increasingly coming from engineering managers and directors who use AI to turn deep domain knowledge into structured, shippable specs. Not as a hostile takeover of the PM role, but as a genuine elevation of what engineering leadership means when AI removes the bottleneck between insight and specification.
+
+-----
+
+## Engineers Know the Customer Better Than You Think
+
+Most VPs already sense this but rarely say it out loud: your engineering managers and senior engineers often understand customer pain points more deeply than your product teams do. That’s not a slight against product management — it’s a structural reality of how mature engineering organizations work.
+
+|Who                 |How They Learn About Customers                                                                                 |Depth of Understanding                                      |
+|--------------------|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+|Product Managers    |Customer interviews, analytics dashboards, sales feedback, NPS surveys                                         |Broad but filtered — they see what customers *say* they want|
+|Engineering Managers|On-call rotations, escalation queues, crash logs, support ticket triage, production incident reviews           |Deep and unfiltered — they see what customers *actually hit*|
+|Senior Engineers    |Debugging production issues, reading stack traces tied to real workflows, fixing edge cases no one designed for|Granular — they see the system from the inside out          |
+
+In most mature orgs, engineers handle on-call support. They see the exact API call that failed, the exact screen where a field worker lost connectivity, the exact sequence of taps that caused data loss. They experience customer pain firsthand through the code — not through a game of telephone.
+
+Product teams synthesize. Engineering teams *witness*.
+
+-----
+
+## AI as a Product Definition Accelerant
+
+Engineering leaders have never lacked insight into customer problems. What they’ve lacked is a fast path from that insight to a structured product requirements document — synthesizing needs, mapping edge cases, considering platform differences, articulating acceptance criteria. AI collapses that entire translation layer.
+
+|Before AI                                                                           |With AI                                                                                                     |
+|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+|EM knows the problem deeply but can’t efficiently translate it into a structured PRD|EM describes the problem to Claude, which drafts a structured PRD in minutes                                |
+|Edge cases are discovered during development, causing rework                        |AI analyzes the codebase and surfaces edge cases *before* development starts                                |
+|Technical constraints are communicated verbally in meetings                         |AI reads the actual code and documents constraints with specificity                                         |
+|Requirements go through multiple rounds of PM ↔ Eng translation                     |The person who understands the problem writes the spec directly, with AI handling structure and completeness|
+
+-----
+
+## The Director’s Role: Setting the Pace
+
+None of this happens organically. Someone has to set the expectation that engineering leaders should operate as product engineers — people who refuse to see a boundary between understanding the problem and defining the solution. As a director, that someone is you.
+
+What I tell my managers: if you understand the customer’s problem and you have the tools to define the solution, waiting for someone else to write the requirements is a failure of initiative, not a respect of process.
+
+I’m not arguing we abolish product management. The traditional handoff — product writes the spec, throws it over the wall, engineering builds it — is just too slow and lossy for the pace AI enables. The best outcomes come when the person closest to the problem defines the solution, with AI providing the scaffolding to make that definition rigorous.
+
+-----
+
+## Case Study: Automatic Offline Connectivity Threshold
+
+### The Trigger
+
+A national utility provider — one of our highest annual contract value customers — was escalating through support. Their field agents perform work in remote areas using our mobile app, and those areas frequently have degraded but not fully disconnected cellular service. The agents weren’t losing connectivity entirely. They were stuck in a worse state: technically connected but practically unable to do anything. Requests would either crawl through in 30–90 seconds while the app appeared frozen, or time out entirely and fail. Either way, agents were wasting time in the field retrying basic operations — form saves, navigation, attachment uploads. The customer was at risk of debooking.
+
+Rather than routing this through the standard product intake process, I formed a small crack team — a few engineers with deep knowledge of our offline stack, and me operating as the product engineering lead.
+
+### The Root Cause I Already Understood
+
+From handling support escalations and studying our codebase over the years, I already knew the architectural limitation: our app relied on binary OS-level reachability to enter offline mode, and the platform APIs only fire on full network gain or loss. In this customer’s environment, the OS reports “connected” even when throughput is essentially unusable. The app never transitions to offline because it technically has a network connection — it just can’t do anything useful with it.
+
+A product manager starting from scratch would have needed weeks of discovery to arrive at that understanding.
+
+### The Five-Step Process
+
+I wrote the PRD myself with Claude as a co-author. What follows isn’t a methodology I read about — it’s what actually happened on this project, and the pattern I now want my managers to repeat.
+
+**Step 1: I wrote the first draft based on my understanding of the problem.**
+
+Because I already understood the customer pain and the codebase limitation, I could describe the target behavior directly: the app should auto-transition to offline when any API request exceeds a configurable duration threshold, rather than waiting for the OS to report full disconnection. Claude helped me structure that idea into a proper PRD — executive summary, problem statement, proposed solution, and approach.
+
+**Step 2: I supplemented gaps by vibing with the codebase.**
+
+This was the step where AI added the most value beyond what I could do alone. I pointed Claude at our network monitoring code — the connectivity wrappers, the offline transition logic, the sync pipeline — and asked it to map what the system actually does today. Then I compared that against what the customer actually needs.
+
+What surfaced was a set of architectural mismatches I could articulate but hadn’t fully documented. Our connectivity detection was binary when it needed to be threshold-based. Our bandwidth estimation relied on theoretical radio-type ceilings rather than measuring real request latency. The app snapped back online the moment the OS detected a signal, when it should have probed first to confirm the connection was actually usable. And we treated all HTTP traffic the same, when large file uploads have legitimately different timing characteristics than API calls.
+
+Each of these gaps became a core section of the PRD. None of them would have surfaced in a PM-led discovery session — they required someone who could read both the support tickets and the code, and AI made that correlation fast.
+
+**Step 3: I reviewed the draft with my engineers and managers.**
+
+The crack team validated the approach and confirmed the key design decisions — particularly the bias toward going offline early. A false positive costs almost nothing (the agent returns online when prompted), while a false negative means an agent in a remote area watching spinners indefinitely. That asymmetry drove the entire design philosophy.
+
+**Step 4: They revised the document with further knowledge.**
+
+Engineers added the detail that only comes from being hands-on with the platform: preconditions that gate offline transitions, the specific probe endpoint for the readiness check, sync exclusion rules to prevent re-trigger loops. Each pass made the PRD sharper, and the engineers were engaged because they were refining a document that already understood their domain — not translating a PM’s interpretation of it.
+
+**Step 5: We asked Claude to identify edge cases we’d missed.**
+
+This turned out to be the highest-leverage step. We fed the near-final PRD back to Claude and asked a simple question: what scenarios haven’t we covered? What could break?
+
+What came back was a class of problems none of us had fully thought through — the gray areas between “this should trigger offline” and “this shouldn’t.” A large attachment upload that takes 8 seconds because the file is big isn’t a connectivity problem, but an attachment upload that times out entirely *is*. If the sync process runs slow after reconnecting, should that push the app back offline? (No — that creates an infinite loop.) If the readiness probe passes but real requests still struggle, is the user stuck? (No — the first slow request re-triggers offline automatically.)
+
+These aren’t the kind of edge cases you catch in a kickoff meeting. They emerge when you pressure-test a design against real-world conditions, and AI is exceptionally good at doing that systematically. The PRD went from “solid first pass” to “engineers can build from this without ambiguity” because of what this step surfaced.
+
+### What the PRD Contained
+
+The final document was a shippable engineering specification. It defined an admin-configurable threshold property (disabled by default, tunable per customer environment), the measurement approach for request duration, exclusion rules for attachment uploads and sync traffic, a readiness check sequence for confirming connectivity before prompting the user to go back online, and configuration guidance for different environments — shorter thresholds for remote field work, longer ones for urban deployments.
+
+It also included 14 acceptance criteria covering every behavior explicitly (platform-tagged and testable), telemetry events for threshold calibration in the field, a test automation strategy with network throttling profiles to simulate degraded connectivity, and a risk matrix with specific mitigations.
+
+Engineers could build from this document without a single clarifying meeting.
+
+### The Field Test
+
+We prototyped rapidly and deployed to the customer’s environment for a field test. I stayed involved through validation — collecting feedback from their field agents, monitoring our internal telemetry to confirm the threshold was triggering correctly in their connectivity conditions, and iterating on configuration values based on real-world data.
+
+The customer de-escalated. The turnaround from “at risk of debooking” to “satisfied and stable” happened in a fraction of the time a traditional product cycle would have taken.
+
+That outcome matters more than the feature itself. The threshold property is a good piece of engineering, but what actually moved the needle was protecting significant annual contract value and restoring a customer relationship that was deteriorating with every week of inaction. The goal of product engineering isn’t to ship features faster — it’s to drive business outcomes, and AI-enabled speed is the means, not the end.
+
+-----
+
+## Applying This Model
+
+|Traditional Flow                                                                                                          |Product Engineering Flow                                                                               |
+|--------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+|Customer escalation → Support → PM intake → Discovery → PRD draft → Eng review → Revisions → Prioritization → Roadmap slot|Customer escalation → Eng leader explores problem + code with AI → PRD drafted → Eng validation → Build|
+|Timeline: 4-8 weeks to shippable requirements                                                                             |Timeline: days                                                                                         |
+|Lossy: each handoff introduces interpretation gaps                                                                        |Direct: the person who understands the problem defines the solution                                    |
+
+Not every problem fits this model. Strategic product decisions still require market analysis, competitive positioning, and long-term roadmap thinking that product management excels at. But for the class of problems where engineering already understands the customer pain and contract value is on the line, AI removes every excuse for not acting on that understanding.
+
+**Make on-call a leadership advantage, not a burden.** Every support escalation your team handles is product intelligence. Have your managers keep a running log of customer pain patterns as raw material for product definition.
+
+**Teach your managers to vibe with the codebase.** Point Claude at a module, ask it to explain the architecture, then ask what breaks under specific customer conditions. That’s how domain knowledge becomes product requirements. If they see a problem and understand it deeply enough to define the solution — they should define it.
+
+**Protect the space.** Product engineering only works if engineering leaders have bandwidth to think beyond sprint execution. If your managers are drowning in process overhead, they’ll never elevate into product thinking. Clear the path.
+
+-----
+
+The best product insights in your org are probably sitting in your on-call rotation.
