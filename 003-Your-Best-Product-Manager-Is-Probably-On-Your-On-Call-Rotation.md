@@ -1,7 +1,6 @@
 # Your Best Product Manager Is Probably on Your On-Call Rotation
 
 There’s a persistent myth in enterprise software that product managers define what gets built and engineers build it. The reality in mature engineering organizations has never been that clean — and AI is making the line disappear entirely.
-
 The best product requirements in my org are increasingly coming from engineering managers and directors who use AI to turn deep domain knowledge into structured, shippable specs. Not as a hostile takeover of the PM role, but as a genuine elevation of what engineering leadership means when AI removes the bottleneck between insight and specification.
 
 -----
