@@ -38,7 +38,7 @@ You should read this if you:
 | --- | --- | --- |
 | 001 | [Using AI as a Decision Support Layer for Defect Management at Scale](001-Using-AI-as-a-Decision-Support-Layer-for-Defect-Management-at-Scale.md) | Defect triage, context engineering, regression-to-rule pipelines |
 | 002 | [Building an Agent Harness: How I Moved 70 Engineers to Agentic Development in 30 Days](002-Building-an-Agent-Harness-How-I-Moved-70-Engineers-to-Agentic-Development-in-30-Days.md) | Agent harness, AI adoption at scale, plugin marketplaces, measuring agentic contributions |
-| 003 | [Your Best Product Manager Is Probably on Your On-Call Rotation](./003-Your-Best-Product-Manager-Is-Probably-on-Your-On-Call-Rotation.md) | Product engineering, AI-assisted PRDs, on-call as product intelligence |
+| 003 | [Your Best Product Manager Is Probably on Your On-Call Rotation](./003-Your-Best-Product-Manager-Is-Probably-On-Your-On-Call-Rotation.md) | Product engineering, AI-assisted PRDs, on-call as product intelligence |
 
 ## About the Author
 
