@@ -104,8 +104,8 @@ Here's an anonymized excerpt from a real triage run. Names, defect IDs, and desc
 
 | Defect | Description | Platform | Assignee | State | Days Open | Recommendation |
 |--------|------------|----------|----------|-------|-----------|----------------|
-| [DEF0041923](link) | App crashes on launch after authentication timeout | iOS | M. Torres | Investigation | 3 | Escalate to P1. 12 customer-reported instances in the last 48 hours. (Owner: J. Park) |
-| [DEF0041876](link) | Form data silently lost when network drops mid-save | Android | Unassigned | New | 5 | Assign immediately. Offline data loss is a retention risk. Suggest R. Okonkwo based on workload and domain. (Owner: S. Gupta) |
+| [BUG0041923](link) | App crashes on launch after authentication timeout | iOS | M. Torres | Investigation | 3 | Escalate to P1. 12 customer-reported instances in the last 48 hours. (Owner: J. Park) |
+| [BUG0041876](link) | Form data silently lost when network drops mid-save | Android | Unassigned | New | 5 | Assign immediately. Offline data loss is a retention risk. Suggest R. Okonkwo based on workload and domain. (Owner: S. Gupta) |
 
 #### Section 3: Workload Analysis
 
@@ -114,28 +114,28 @@ Here's an anonymized excerpt from a real triage run. Names, defect IDs, and desc
 | M. Torres | iOS | 7 | Overloaded. 3 defects in Investigation with no work notes in 5+ days. Recommend manager check-in. (Owner: J. Park) |
 | A. Petrov | Android | 6 | At capacity. All defects in Work In Progress with recent activity. No action needed. |
 | L. Nakamura | iOS | 1 | Available capacity. Consider rebalancing 1-2 defects from M. Torres. (Owner: J. Park) |
-| R. Okonkwo | Android | 2 | Available capacity. Strong fit for DEF0041876 (offline/sync domain). (Owner: S. Gupta) |
+| R. Okonkwo | Android | 2 | Available capacity. Strong fit for BUG0041876 (offline/sync domain). (Owner: S. Gupta) |
 
 #### Section 4: Duplicate Detection
 
 | Cluster | Defects | Platforms | Likely Root Cause | Recommendation |
 |---------|---------|-----------|-------------------|----------------|
-| Cluster A | DEF0041812, DEF0041834 | iOS, Android | Both describe session token expiration triggering re-authentication loops. Identical backend API behavior. | Investigate as single backend issue. Link defects. Assign to one engineer. (Owner: J. Park, S. Gupta) |
-| Cluster B | DEF0041790, DEF0041801, DEF0041819 | Android | All report list view failing to refresh after record update. Likely same data cache invalidation bug. | Consolidate to DEF0041790 as primary. Close others as duplicates. (Owner: S. Gupta) |
+| Cluster A | BUG0041812, BUG0041834 | iOS, Android | Both describe session token expiration triggering re-authentication loops. Identical backend API behavior. | Investigate as single backend issue. Link defects. Assign to one engineer. (Owner: J. Park, S. Gupta) |
+| Cluster B | BUG0041790, BUG0041801, BUG0041819 | Android | All report list view failing to refresh after record update. Likely same data cache invalidation bug. | Consolidate to BUG0041790 as primary. Close others as duplicates. (Owner: S. Gupta) |
 
 #### Section 5: Blocked Engineers
 
 | Engineer | Defect | Blocked On | Days Blocked | Recommendation |
 |----------|--------|-----------|--------------|----------------|
-| K. Johansson | DEF0041756 | Waiting on backend team API fix (no ETA provided) | 11 | Escalate to backend team lead. Engineer has been idle on this defect for over a week. (Owner: J. Park) |
-| D. Kapoor | DEF0041803 | Needs UX clarification on error state design | 6 | Schedule 15-min sync with design team. Decision is blocking two downstream defects. (Owner: S. Gupta) |
+| K. Johansson | BUG0041756 | Waiting on backend team API fix (no ETA provided) | 11 | Escalate to backend team lead. Engineer has been idle on this defect for over a week. (Owner: J. Park) |
+| D. Kapoor | BUG0041803 | Needs UX clarification on error state design | 6 | Schedule 15-min sync with design team. Decision is blocking two downstream defects. (Owner: S. Gupta) |
 
 #### Section 8: Aging Defects
 
 | Defect | Description | Assignee | State | Days Open | Last Activity | Recommendation |
 |--------|------------|----------|-------|-----------|---------------|----------------|
-| [DEF0041602](link) | Keyboard overlaps input field on smaller devices | Android | Investigation | 22 | 18 days ago | Stale. Reassign or close with rationale. (Owner: S. Gupta) |
-| [DEF0041648](link) | Push notification badge count incorrect after bulk dismiss | iOS | New | 16 | No activity | Unowned and aging. Assign to L. Nakamura who has capacity. (Owner: J. Park) |
+| [BUG0041602](link) | Keyboard overlaps input field on smaller devices | Android | Investigation | 22 | 18 days ago | Stale. Reassign or close with rationale. (Owner: S. Gupta) |
+| [BUG0041648](link) | Push notification badge count incorrect after bulk dismiss | iOS | New | 16 | No activity | Unowned and aging. Assign to L. Nakamura who has capacity. (Owner: J. Park) |
 
 #### Section 9: Thematic Grouping (Top 5 of 52)
 
